@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BarcodeView">
+        <attr name="text" format="string" />
+        <attr name="barColour" format="color" />
+        <attr name="moduleWidth" format="dimension" />
+        <attr name="widthOverHeight" format="float" />
+    </declare-styleable>
+</resources>
