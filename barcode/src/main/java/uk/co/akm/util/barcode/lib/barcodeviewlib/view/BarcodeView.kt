@@ -91,6 +91,7 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
         }
     }
 
+    // https://stackoverflow.com/questions/12266899/onmeasure-custom-view-explanation
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = computeDesiredWidth()
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
