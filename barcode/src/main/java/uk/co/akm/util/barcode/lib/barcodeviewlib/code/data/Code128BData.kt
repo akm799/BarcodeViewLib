@@ -1,6 +1,7 @@
 package uk.co.akm.util.barcode.lib.barcodeviewlib.code.data
 
 import uk.co.akm.util.barcode.lib.barcodeviewlib.code.model.CharData
+import uk.co.akm.util.barcode.lib.barcodeviewlib.code.model.CodeData
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -8,9 +9,9 @@ import kotlin.collections.ArrayList
  * Created by Thanos Mavroidis on 27/08/2018.
  */
 class Code128BData {
-    val map: Map<Char, CharData>
+    val map: Map<Char, CodeData>
 
-    private val extra: Collection<CharData>
+    private val extra: Collection<CodeData>
 
     init {
         val data = arrayOf(
@@ -111,22 +112,22 @@ class Code128BData {
                 CharData('~',  94, arrayOf(true, false, false, false, true, false, true, true, true, true, false))
         )
 
-        map = HashMap<Char, CharData>()
+        map = HashMap<Char, CodeData>()
         data.forEach { map[it.c] = it }
 
         extra = ArrayList()
-        extra.add(CharData('\u007F',  95, arrayOf(true, false, true, true, true, true, false, true, false, false, false)))
-        extra.add(CharData('3',  96, arrayOf(true, false, true, true, true, true, false, false, false, true, false)))
-        extra.add(CharData('2',  97, arrayOf(true, true, true, true, false, true, false, true, false, false, false)))
-        extra.add(CharData('S',  98, arrayOf(true, true, true, true, false, true, false, false, false, true, false)))
-        extra.add(CharData('C',  99, arrayOf(true, false, true, true, true, false, true, true, true, true, false)))
-        extra.add(CharData('4',  100, arrayOf(true, false, true, true, true, true, false, true, true, true, false)))
-        extra.add(CharData('A',  101, arrayOf(true, true, true, false, true, false, true, true, true, true, false)))
-        extra.add(CharData('1',  102, arrayOf(true, true, true, true, false, true, false, true, true, true, false)))
+        extra.add(CodeData(95, arrayOf(true, false, true, true, true, true, false, true, false, false, false)))
+        extra.add(CodeData(96, arrayOf(true, false, true, true, true, true, false, false, false, true, false)))
+        extra.add(CodeData(97, arrayOf(true, true, true, true, false, true, false, true, false, false, false)))
+        extra.add(CodeData(98, arrayOf(true, true, true, true, false, true, false, false, false, true, false)))
+        extra.add(CodeData(99, arrayOf(true, false, true, true, true, false, true, true, true, true, false)))
+        extra.add(CodeData(100, arrayOf(true, false, true, true, true, true, false, true, true, true, false)))
+        extra.add(CodeData(101, arrayOf(true, true, true, false, true, false, true, true, true, true, false)))
+        extra.add(CodeData(102, arrayOf(true, true, true, true, false, true, false, true, true, true, false)))
     }
 
-    fun checkSymbol(value: Int): CharData {
-        val matcher = { charData: CharData ->  charData.value == value}
+    fun checkSymbol(value: Int): CodeData {
+        val matcher = { codeData: CodeData ->  codeData.value == value}
 
         return if (extra.any(matcher)) extra.first(matcher) else map.values.first(matcher)
     }

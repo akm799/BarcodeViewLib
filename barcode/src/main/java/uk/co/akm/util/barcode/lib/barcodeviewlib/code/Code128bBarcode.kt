@@ -1,7 +1,7 @@
 package uk.co.akm.util.barcode.lib.barcodeviewlib.code
 
 import uk.co.akm.util.barcode.lib.barcodeviewlib.code.data.Code128BData
-import uk.co.akm.util.barcode.lib.barcodeviewlib.code.model.CharData
+import uk.co.akm.util.barcode.lib.barcodeviewlib.code.model.CodeData
 import java.util.ArrayList
 
 /**
@@ -16,9 +16,9 @@ class Code128bBarcode : Barcode {
     private val modulesInTerminator = 2
     private val code128bCheckSymbolModulo = 103
 
-    private val startCodeB = CharData('B', 104, arrayOf(true, true, false, true, false, false, true, false, false, false, false))
-    private val stop = CharData('P', -1, arrayOf(true, true, false, false, false, true, true, true, false, true, false))
-    private val terminator = CharData('T', -1, arrayOf(true, true))
+    private val startCodeB = CodeData(104, arrayOf(true, true, false, true, false, false, true, false, false, false, false))
+    private val stopPattern = arrayOf(true, true, false, false, false, true, true, true, false, true, false)
+    private val terminatorPattern = arrayOf(true, true)
 
     private val code128bData = Code128BData()
     private val map = code128bData.map
@@ -43,26 +43,26 @@ class Code128bBarcode : Barcode {
         val list = ArrayList<Pair<Int, Int>>()
         var offset = (width%numberOfModules)/2 + modulesInQuietZone*moduleWidth
 
-        val startAddition = computeBarBorders(moduleWidth, offset, startCodeB)
+        val startAddition = computeBarBorders(moduleWidth, offset, startCodeB.pattern)
         list.addAll(startAddition.first)
         offset = startAddition.second
 
         text.forEach { c ->
-            val charAddition = computeBarBorders(moduleWidth, offset, map[c]!!)
+            val charAddition = computeBarBorders(moduleWidth, offset, map[c]!!.pattern)
             list.addAll(charAddition.first)
             offset = charAddition.second
         }
 
         val check = checkSymbol(text)
-        val checkAddition = computeBarBorders(moduleWidth, offset, check)
+        val checkAddition = computeBarBorders(moduleWidth, offset, check.pattern)
         list.addAll(checkAddition.first)
         offset = checkAddition.second
 
-        val stopAddition = computeBarBorders(moduleWidth, offset, stop)
+        val stopAddition = computeBarBorders(moduleWidth, offset, stopPattern)
         list.addAll(stopAddition.first)
         offset = stopAddition.second
 
-        val terminatorAddition = computeBarBorders(moduleWidth, offset, terminator)
+        val terminatorAddition = computeBarBorders(moduleWidth, offset, terminatorPattern)
         list.addAll(terminatorAddition.first)
         offset = terminatorAddition.second
 
@@ -75,12 +75,12 @@ class Code128bBarcode : Barcode {
         return !(valid)
     }
 
-    private fun computeBarBorders(moduleWidth: Int, start: Int, c: CharData): Pair<Array<Pair<Int, Int>>, Int> {
+    private fun computeBarBorders(moduleWidth: Int, start: Int, pattern: Array<Boolean>): Pair<Array<Pair<Int, Int>>, Int> {
         var offset = start
         val list = ArrayList<Pair<Int, Int>>()
 
         var left = 0
-        c.pattern.forEach {
+        pattern.forEach {
             if (it && left == 0) {
                 left = offset
             }
@@ -100,7 +100,7 @@ class Code128bBarcode : Barcode {
         return Pair(list.toTypedArray(), offset)
     }
 
-    private fun checkSymbol(text: String): CharData {
+    private fun checkSymbol(text: String): CodeData {
         var sum = startCodeB.value
         text.forEachIndexed { i, c ->
             sum += (i + 1)*map[c]!!.value
