@@ -106,6 +106,6 @@ class Code128bBarcode : Barcode {
             sum += (i + 1)*map[c]!!.value
         }
 
-        return code128bData.checkSymbol(sum%code128bCheckSymbolModulo)
+        return code128bData.symbolForValue(sum%code128bCheckSymbolModulo)
     }
 }

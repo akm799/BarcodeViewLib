@@ -39,7 +39,7 @@ class Code128bDateTest {
     private fun isPrintableChar(value: Int) = (value >=0 && value <= maxPrintableCharIndex)
 
     private fun assertCodeData(value: Int, pattern: String) {
-        assertCodeData(value, pattern, underTest.checkSymbol(value))
+        assertCodeData(value, pattern, underTest.symbolForValue(value))
     }
 
     private fun assertCharData(c: Char, value: Int, pattern: String) {

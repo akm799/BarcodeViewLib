@@ -126,7 +126,7 @@ class Code128BData {
         extra.add(CodeData(102, arrayOf(true, true, true, true, false, true, false, true, true, true, false)))
     }
 
-    fun checkSymbol(value: Int): CodeData {
+    fun symbolForValue(value: Int): CodeData {
         val matcher = { codeData: CodeData ->  codeData.value == value}
 
         return if (extra.any(matcher)) extra.first(matcher) else map.values.first(matcher)
