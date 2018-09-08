@@ -25,6 +25,12 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
     private val defaultBarColour = Color.BLACK
 
     /**
+     * True if some underlying barcode text is being displayed or false otherwise.
+     */
+    val hasText: Boolean
+        get() = (textValue != null)
+
+    /**
      * Underlying barcode text.
      */
     var text: String?
