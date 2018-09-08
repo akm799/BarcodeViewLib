@@ -36,7 +36,7 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
      */
     var barColour: Int
         get() = barColourValue
-        set(value) { barColourValue = value }
+        set(value) { setBarColourValue(value) }
 
     /**
      * The ratio of the width of the barcode over its height. Please note that this property will
@@ -86,13 +86,19 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
      */
     fun setModuleWidthDp(value: Int) {
         if (value >= 0) {
+            val oldValue = moduleWidthPxValue
             moduleWidthPxValue = dpToPx(value)
+
+            if (oldValue != moduleWidthPxValue) {
+                requestLayout()
+            }
         }
     }
 
     private fun setWidthOverHeightRatioValue(value: Float) {
-        if (value > 0) {
+        if (value > 0 && value != widthOverHeightRatioValue) {
             widthOverHeightRatioValue = value
+            requestLayout()
         }
     }
 
@@ -113,8 +119,16 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
     }
 
     private fun setTextValue(text: String?) {
+        val oldValue = textValue
         textValue = if (textIsSuitable(text)) text else null
-        requestLayout()
+
+        if (oldValue != textValue) {
+            if (oldValue?.length == textValue?.length) {
+                invalidate()
+            } else {
+                requestLayout()
+            }
+        }
     }
 
     private fun textIsSuitable(text: String?): Boolean {
@@ -128,6 +142,13 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
             return false
         } else {
             return true
+        }
+    }
+
+    private fun setBarColourValue(colour: Int) {
+        if (colour != barColourValue) {
+            barColourValue = colour
+            invalidate()
         }
     }
 
