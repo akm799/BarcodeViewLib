@@ -42,7 +42,7 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
      * The ratio of the width of the barcode over its height. Please note that this property will
      * not be used if the dimensions of this view are set to a fixed value.
      */
-    var widthOverHeightRation: Float
+    var widthOverHeightRatio: Float
         get() = widthOverHeightRatioValue
         set(value) { setWidthOverHeightRatioValue(value) }
 
