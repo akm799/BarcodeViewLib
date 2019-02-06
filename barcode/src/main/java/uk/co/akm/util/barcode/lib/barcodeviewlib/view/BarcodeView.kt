@@ -10,9 +10,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import uk.co.akm.util.barcode.lib.barcodeviewlib.R
+import uk.co.akm.util.barcode.lib.barcodeviewlib.attrs.obtainCloseableStyledAttributes
 import uk.co.akm.util.barcode.lib.barcodeviewlib.code.Code128bBarcode
 
-class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : View(context, attrs, defStyleAttr, defStyleRes) {
+class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : View(context, attrs, defStyleAttr) {
     companion object {
         const val TAG = "BarcodeView"
     }
@@ -61,17 +62,13 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-
     init {
-        context.theme.obtainStyledAttributes(attrs, R.styleable.BarcodeView, defStyleAttr, defStyleRes).apply {
-            try {
+        context.theme.obtainCloseableStyledAttributes(attrs, R.styleable.BarcodeView, defStyleAttr).use {
+            with(it.array) {
                 textValue = getString(R.styleable.BarcodeView_text)
                 barColourValue = getColor(R.styleable.BarcodeView_barColour, defaultBarColour)
                 moduleWidthPxValue = Math.round(getDimension(R.styleable.BarcodeView_moduleWidth, 0f))
                 widthOverHeightRatioValue = getFloat(R.styleable.BarcodeView_widthOverHeight, defaultWidthOverHeightRatio)
-            } finally {
-                recycle()
             }
         }
 
