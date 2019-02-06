@@ -81,7 +81,7 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
     }
 
     /**
-     * Returns the width of a bar in pixels that has been set for this view. Please not that this
+     * Returns the width of a bar in pixels that has been set for this view. Please note that this
      * width has no effect if the dimensions of this view are set to a fixed value.
      */
     fun getModuleWidthPx(): Int = moduleWidthPxValue
@@ -161,7 +161,7 @@ class BarcodeView(context: Context, attrs: AttributeSet?, defStyleAttr: Int, def
     /**
      * If the dimensions of this view are fixed, then the width of the bar in the barcode will be
      * set in such a way so as the barcode view fits in this fixed width. The height of the barcode
-     * will fit the fixed height. If the undelying barcode text results in a barcode that is to wide
+     * will fit the fixed height. If the underlying barcode text results in a barcode that is to wide
      * to fit in the fixed width, then no barcode will be shown.
      *
      * If the dimensions of this view are free (wrap_content), then the width of a bar in the barcode
